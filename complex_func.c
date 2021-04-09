@@ -2,7 +2,7 @@
  Functions for operations on complex numbers with mpfi library.
 
 
-Author: @JM.
+Author: @Jonme.
 */
 #include <stdio.h>
 #include "mpfi.h"
@@ -65,23 +65,30 @@ void cSub(cmpfi z, cmpfi w, cmpfi u)
 void cMul(cmpfi z, cmpfi w, cmpfi u)
 {
 	// Initializing temporary variables.
-	mpfi_t temp_real, temp_imag;
+	mpfi_t temp_real, temp_imag, aux_real, aux_imag;
 	mpfi_init(temp_real);
 	mpfi_init(temp_imag);
+	mpfi_init(aux_real);
+	mpfi_init(aux_imag);
 
 	// Real product
-	mpfi_mul( z->real, w->real, u->real);
+	mpfi_mul(aux_real, w->real, u->real);
 	mpfi_mul(temp_real, w->imag, u->imag);
-	mpfi_sub(z->real, z->real, temp_real);
+	mpfi_sub(aux_real, aux_real, temp_real);
 	
 	// Imaginary product
 	mpfi_mul(temp_imag, w->real, u->imag);
-	mpfi_mul( z->imag, w->imag, u->real);
-	mpfi_add( z->imag, z->imag, temp_imag);
+	mpfi_mul(aux_imag, w->imag, u->real);
+	mpfi_add(aux_imag, aux_imag, temp_imag);
+	
+	// Set z to new values.
+	cSet(z, aux_real, aux_imag);
 	
 	// Clearing temporary variables.
 	mpfi_clear(temp_real);
 	mpfi_clear(temp_imag);
+	mpfi_clear(aux_real);
+	mpfi_clear(aux_imag);
 	
 	
 	// complex format a+bi, c + di
@@ -90,47 +97,47 @@ void cMul(cmpfi z, cmpfi w, cmpfi u)
 }
 
 // Function for complex division
-
 void cDiv(cmpfi z, cmpfi w, cmpfi u)
 {
 	// Initializing temporary variables.
-	mpfi_t temp_real, temp_imag, temp_divisor1, temp_divisor2;
+	mpfi_t temp_real, temp_imag, aux_real, aux_imag, temp_divisor1, temp_divisor2;
 	mpfi_init(temp_real);
 	mpfi_init(temp_imag);
+	mpfi_init(aux_real);
+	mpfi_init(aux_imag);
 	mpfi_init(temp_divisor1);
 	mpfi_init(temp_divisor2);
 	
 	// Real dividend
-	mpfi_mul(z->real, w->real, u->real);
+	mpfi_mul(aux_real, w->real, u->real);
 	mpfi_mul(temp_real, w->imag, u->imag);
-	mpfi_add(z->real, z->real, temp_real);
+	mpfi_add(aux_real, aux_real, temp_real);
 	
 	// Divisor
-	mpfi_mul(temp_divisor1, u->real, u->real);
-	mpfi_mul(temp_divisor2, u->imag, u->imag);	
+	mpfi_sqr(temp_divisor1, u->real);
+	mpfi_sqr(temp_divisor2, u->imag);
 	mpfi_add(temp_divisor1, temp_divisor1, temp_divisor2);
 	
 	// Imaginary dividend
-	mpfi_mul(z->imag, w->imag, u->real);
+	mpfi_mul(aux_imag, w->imag, u->real);
 	mpfi_mul(temp_imag, w->real, u->imag);
-	mpfi_sub(z->imag, z->imag, temp_imag);
+	mpfi_sub(aux_imag, aux_imag, temp_imag);
 	
 	// Placing result in appropriate struct
-	mpfi_div(z->real, z->real, temp_divisor1);
-	mpfi_div(z->imag, z->imag, temp_divisor1);
+	mpfi_div(z->real, aux_real, temp_divisor1);
+	mpfi_div(z->imag, aux_imag, temp_divisor1);
 	
 	// Clearing temporary variables.
 	mpfi_clear(temp_real);
 	mpfi_clear(temp_imag);
+	mpfi_clear(aux_real);
+	mpfi_clear(aux_imag);
 	mpfi_clear(temp_divisor1);
 	mpfi_clear(temp_divisor2);
 	// complex format a+bi, c + di
 	// Do a * c + bi * di / (c * c + d * d)
 	// Do bi * c - a * di / (c * c + d * d)	
 }
-
-
-///////////////////////////////// ADD TO .h FILE ////////////////////////////////
 
 // Set unsigned int, a real part, b imaginary part
 void cSet_ui(cmpfi z, unsigned int a, unsigned int b)
@@ -200,7 +207,6 @@ void cUnion(cmpfi z, cmpfi w, cmpfi u)
 }
 
 // Change sign
-
 void cChange_sign(cmpfi z, int flag)
 {
 mpfi_t real_flip, imag_flip;

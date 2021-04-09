@@ -1,4 +1,5 @@
 # makefile for testing operations on complex numbers with a struct of mpfi structs
+# Use make one_z to compile code for integrating 1/z 
 
 CC=gcc
 CFLAGS= -g -Wall
