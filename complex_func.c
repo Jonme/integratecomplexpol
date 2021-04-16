@@ -96,6 +96,13 @@ void cMul(cmpfi z, cmpfi w, cmpfi u)
 	// Do a * di + c * bi
 }
 
+// Function to square complex intervals
+void cSqr(cmpfi z, cmpfi u)
+{
+	mpfi_sqr(z->real, u->real);
+	mpfi_sqr(z->imag, u->imag);
+}
+
 // Function for complex division
 void cDiv(cmpfi z, cmpfi w, cmpfi u)
 {
@@ -172,6 +179,12 @@ void cSet_imag(cmpfi z, mpfi_t b)
 	mpfi_set(z->imag, b);
 }
 
+// Set one complex struct to another
+void cSet_c(cmpfi z, cmpfi u)
+{
+	mpfi_set(z->real, u->real);
+	mpfi_set(z->imag, u->imag);
+}
 
 // Print left and right bound of real and imaginary intervals.
 void cPrint(cmpfi z)

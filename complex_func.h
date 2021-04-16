@@ -45,6 +45,8 @@ void cSet_real(cmpfi, mpfi_t);
 
 void cSet_imag(cmpfi, mpfi_t);
 
+void cSet_c(cmpfi, cmpfi);
+
 // Print function(s)
 void cPrint(cmpfi);
 
@@ -55,6 +57,8 @@ void cAdd(cmpfi, cmpfi, cmpfi);
 void cSub(cmpfi, cmpfi, cmpfi);
 
 void cMul(cmpfi, cmpfi, cmpfi);
+
+void cSqr(cmpfi, cmpfi);
 
 void cDiv(cmpfi, cmpfi, cmpfi);
 
