@@ -26,7 +26,6 @@ void cint_twoz_div_sqrz_plus1(cmpfi sum, double start, double end, int Nr)
 	cmpfi val1, val2, dz1, dz3, idz2, idz4; // Constants
 	mpfi_t step, N, interval_length;
 	double length;
-	
 	// Initialize structs
 	cInit(z1);
 	cInit(z2);
@@ -61,20 +60,17 @@ void cint_twoz_div_sqrz_plus1(cmpfi sum, double start, double end, int Nr)
 	mpfi_init(step);
 	mpfi_init(N);
 	mpfi_init(interval_length);
-	
 	// Set constants 
 	length = end - start;
 	mpfi_set_ui(N, Nr);
 	mpfi_set_d(interval_length, length);
 	cSet_ui(val1, 1, 0);
 	cSet_ui(val2, 2, 0);
-	
 	// Zeroing sums
 	cSet_ui(z1_sum, 0, 0);
 	cSet_ui(z2_sum, 0, 0);
 	cSet_ui(z3_sum, 0, 0);
 	cSet_ui(z4_sum, 0, 0);
-	
 	// Calculate and set step sizes
 	mpfi_div(step, interval_length, N); // Calculating step size
 	mpfi_set(dz1->real, step); // Assigning Re(pos_dz) = step size
@@ -87,13 +83,11 @@ void cint_twoz_div_sqrz_plus1(cmpfi sum, double start, double end, int Nr)
 	mpfi_set(idz4->imag, step); // Assigning Im(neg_idz) = step size
 	mpfi_set_ui(idz4->real, 0); // Assigning Re(neg_idz) = 0
 	cChange_sign(idz4, 3); // Chaning the sign of neg_idz
-	
 	// Set intervals
 	cSet_d(z1, start, start);
 	cSet_d(z2, end, start);
 	cSet_d(z3, end, end);
 	cSet_d(z4, start, end);
-	
 	// Take first steps and create a union between step 0 and step 1
 	cSet_c(z1_aux, z1);
 	cSet_c(z2_aux, z2);
@@ -107,7 +101,6 @@ void cint_twoz_div_sqrz_plus1(cmpfi sum, double start, double end, int Nr)
 	cUnion(z2, z2, z2_aux);
 	cUnion(z3, z3, z3_aux);
 	cUnion(z4, z4, z4_aux);
-	
 	// Calculate integrals
 	for (int i = 0; i < Nr; i++)
 	{
@@ -119,6 +112,10 @@ void cint_twoz_div_sqrz_plus1(cmpfi sum, double start, double end, int Nr)
 		cMul(f4_prime, val2, z4);
 		
 		// This is f(z) = z^2 + 1
+		//cSqr(f1_tmp, z1);
+		//cSqr(f2_tmp, z2);
+		//cSqr(f3_tmp, z3);
+		//cSqr(f4_tmp, z4);
 		cMul(f1_tmp, z1, z1);
 		cMul(f2_tmp, z2, z2);
 		cMul(f3_tmp, z3, z3);
