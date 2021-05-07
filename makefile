@@ -4,7 +4,7 @@
 CC=gcc
 CFLAGS= -g -Wall
 LIBS= -lm -lmpfr -lgmp -lmpfi
-OBJ= complex_func.o integrate_one_divided_by_z.o testing_functions.o integrate_twoz_div_by_sqrz_plus1.o
+OBJ= complex_func.o integrate_one_divided_by_z.o testing_functions.o integrate_cosx_div_1_plus_sqrx.o integrate_twoz_div_by_sqrz_plus1.o
 DEP=complex_func.h cintegrals.h
 
 # Creates all .o files from all .c files

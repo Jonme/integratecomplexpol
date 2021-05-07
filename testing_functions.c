@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
 	}
 	// Declaring variables.
 	cmpfi sum1, sum2;
+	mpfi_t sumcos;
 	int N, p;
 	double start, end;
 	
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
 	// Initializing summation variable
 	cInit(sum1);
 	cInit(sum2);
+	mpfi_init(sumcos);
 	
 	// Setting precision
 	mpfr_prec_t prec;
@@ -46,6 +48,7 @@ int main(int argc, char *argv[])
 	mpfr_set_default_prec(prec);
 	
 	// Calling integral function
+	int_cosx_div_1_plus_sqrx(sumcos, start, end, N);
 	cint_one_div_z(sum1, start, end, N);
 	cint_twoz_div_sqrz_plus1(sum2, start, end, N);
 	
@@ -60,5 +63,6 @@ int main(int argc, char *argv[])
 	// Clearing
 	cClear(sum1);
 	cClear(sum2);
+	mpfi_clear(sumcos	);
 }
 
